@@ -28,4 +28,12 @@ That way all `rtodoist` functions know where to look. Of course, you can also ju
 `delete_projects` - Delete a specified Todoist projects.
 **Usage**: `projects(project_id)`
 
+## Tasks
 
+
+## Examples
+
+```r
+# Get a list of current projects
+my_projects <- projects()
+```
