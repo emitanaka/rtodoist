@@ -7,6 +7,6 @@
 #' @examples \dontrun{
 #' search_todoist("today", token)
 #'}
-search_todoist <- function(query, token) {
+search_todoist <- function(query, token = getOption('TodoistToken')) {
 return(token)
 }

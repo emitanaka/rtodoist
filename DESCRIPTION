@@ -10,9 +10,12 @@ License: CC0
 Depends:
     RJSONIO,
     plyr,
+    lubridate,
+    stringr,
     RCurl
 Collate:
     'projects.R'
-    'search_todoist.R'
     'tasks.R'
-    'todoist_token.R'
+    'search.R'
+    'todoist.R'
+    'labels.R'

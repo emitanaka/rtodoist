@@ -2,7 +2,8 @@
 \alias{add_project}
 \title{add_project}
 \usage{
-  add_project(project_name, token)
+  add_project(project_name,
+    token = getOption("TodoistToken"))
 }
 \arguments{
   \item{project_name}{Name of new project}

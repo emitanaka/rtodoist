@@ -1,8 +1,8 @@
-\name{get_projects}
-\alias{get_projects}
+\name{projects}
+\alias{projects}
 \title{get_projects}
 \usage{
-  get_projects(token)
+  projects(token = getOption("TodoistToken"))
 }
 \arguments{
   \item{token}{valid todoist token}

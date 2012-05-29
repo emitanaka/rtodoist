@@ -2,7 +2,7 @@
 \alias{get_tasks}
 \title{get_tasks}
 \usage{
-  get_tasks(project_id, token)
+  get_tasks(project_id, token = getOption("TodoistToken"))
 }
 \arguments{
   \item{project_id}{ID of project}
