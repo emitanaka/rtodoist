@@ -25,4 +25,7 @@ That way all `rtodoist` functions know where to look. Of course, you can also ju
 `projects` - Lists all your current Todoist projects.
 **Usage**: `projects()`
 
+`delete_projects` - Delete a specified Todoist projects.
+**Usage**: `projects(project_id)`
+
 
