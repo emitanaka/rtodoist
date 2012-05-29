@@ -20,8 +20,9 @@ That way all `rtodoist` functions know where to look. Of course, you can also ju
 
 ## Projects
 `add_project` - Add a new project to your todoist account
-Usage: `add_project("New Project")`
+**Usage**: `add_project("New Project")`
 
 `projects` - Lists all your current Todoist projects.
-Usage: `projects()
+**Usage**: `projects()`
+
 
