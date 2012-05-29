@@ -1,6 +1,6 @@
 # rtodoist
 
-This is an interface to [Todoist](https://todoist.com) - the todo list manager via `R`. I wrote this primarily for my own sake so I could write custom queries, update my tasks and projects directly from `R`, and also format the queries and write them to text files. This allows me to embed tasks from various projects into my desktop using [Geektool](http://projects.tynsoe.org/en/geektool/).
+This is an interface to [Todoist](https://todoist.com) - the todo list manager via `R`. I wrote this primarily for my own needs so I could write custom queries, update my tasks and projects directly from `R`, and also format the queries and write them to text files. This allows me to embed tasks from various projects into my desktop using [Geektool](http://projects.tynsoe.org/en/geektool/).
 
 ## Installing
 
@@ -21,9 +21,9 @@ I also recommend that once you run:
 options(TodoistToken = "YOUR_TOKEN")
 ```
 
-That way all `rtodoist` functions know where to look. Of course, you can also just specifiy it inline.
+That way you no longer have to specify a token for any `rtodoist` functions. Of course, you can also just specifiy it inline using `token=...`
 
-## Projects
+## Project Functions
 `add_project` - Add a new project to your todoist account
 
 **Usage**: `add_project("New Project")`
@@ -36,7 +36,20 @@ That way all `rtodoist` functions know where to look. Of course, you can also ju
 
 **Usage**: `projects(project_id)`
 
-## Tasks
+## Task Functions
+
+`pending_tasks` - returns incomplete tasks from a specified project.
+
+`add_task` - Add a task to a particular project.
+
+__Note: There are other API methods that I didn't code up since they aren't critical.__
+
+
+## Label Functions
+
+`get_labels()` - Get a complete list of labels.
+
+`label_tasks()` - Returns tasks matching a label.
 
 
 ## Examples
