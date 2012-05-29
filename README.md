@@ -10,9 +10,14 @@ Package is still in early development but you can install the latest version usi
 library(devtools)
 install_github("rtodoist", "karthikram")
 ```
-I also recommend that once you run `todoist_token()`, simply save your token in your `.rprofile` by adding the following line:
+I also recommend that once you run:
 
-```
+ ```r
+ token <- todoist_token('your_todoist_login', 'your_todoist_password')
+ ```
+ simply save that token in your `.rprofile` by adding the following line:
+
+```r
 options(TodoistToken = "YOUR_TOKEN")
 ```
 
@@ -20,12 +25,15 @@ That way all `rtodoist` functions know where to look. Of course, you can also ju
 
 ## Projects
 `add_project` - Add a new project to your todoist account
+
 **Usage**: `add_project("New Project")`
 
 `projects` - Lists all your current Todoist projects.
+
 **Usage**: `projects()`
 
 `delete_projects` - Delete a specified Todoist projects.
+
 **Usage**: `projects(project_id)`
 
 ## Tasks
