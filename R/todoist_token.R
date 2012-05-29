@@ -1,7 +1,9 @@
+#' rTodoist - An R interface to Todoist.com
+#'
 #' @name rtodoist
 #' @docType package
 #' @aliases rtodoist package-rtodoist
-#' @import RJSONIO RCurl
+#' @import RJSONIO RCurl plyr
 NULL
 
 

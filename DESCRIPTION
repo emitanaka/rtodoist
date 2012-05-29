@@ -7,3 +7,12 @@ Author: Karthik Ram
 Maintainer: Karthik Ram <karthik.ram+R@gmail.com>
 Description: Manage projects and tasks on Todoist via R.
 License: CC0
+Depends:
+    RJSONIO,
+    plyr,
+    RCurl
+Collate:
+    'projects.R'
+    'search_todoist.R'
+    'tasks.R'
+    'todoist_token.R'
