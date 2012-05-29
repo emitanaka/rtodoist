@@ -9,9 +9,17 @@
 #'}
 add_project <- function(project_name, token) {
 add_url <- "https://todoist.com/API/addProject"
-# check to see if project doesn't already exist.
-# add,
-# return JSON success
+current <- get_projects(token)
+current_projects <- current$name
+if(project_name %in% current_projects) {
+	stop("Project already exists")
+	} else {
+
+args <- list(name = project_name, token = token)
+add_p <- postForm(add_url, name=project_name, token=token)
+result <- fromJSON(add_p)
+return (result)
+	}
 }
 
 
