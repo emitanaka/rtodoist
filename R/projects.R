@@ -5,23 +5,20 @@
 #' @param  token Todoist API token
 #' @export
 #' @examples \dontrun{
-#' add_project("Work", token)
+#' add_project('Work', token)
 #'}
-add_project <- function(project_name, token = getOption('TodoistToken')) {
-add_url <- "https://todoist.com/API/addProject"
-current_projects <- projects(token)
-if(project_name %in% current_projects$name) {
-	stop("Project already exists")
-	} else {
-
-args <- list(name = project_name, token = token)
-add_p <- postForm(add_url, name=project_name, token=token)
-result <- fromJSON(add_p)
-return (result)
-	}
+add_project <- function(project_name, token = getOption("TodoistToken")) {
+    add_url <- "https://todoist.com/API/addProject"
+    current_projects <- projects(token)
+    if (project_name %in% current_projects$name) {
+        stop("Project already exists")
+    } else {
+        args <- list(name = project_name, token = token)
+        add_p <- postForm(add_url, name = project_name, token = token)
+        result <- fromJSON(add_p)
+            return(result)
+    }
 }
-
-
 #'get_projects
 #'
 #' retrieves list of projects
@@ -30,17 +27,15 @@ return (result)
 #' @return data.frame with list of projects
 #' @examples \dontrun{
 #' projects <- get_projects(token)
-#' postdoc <- projects[which(projects$name=="Postdoc"),]$id
+#' postdoc <- projects[which(projects$name=='Postdoc'),]$id
 #'}
-projects <- function(token = getOption('TodoistToken')) {
-projects_url <- "https://todoist.com/API/getProjects"
-args2 <- list(token = token)
-tt2 <- getForm(projects_url, .params =args2)
-ans2 <- fromJSON(tt2)
-return(ldply(ans2, data.frame))
+projects <- function(token = getOption("TodoistToken")) {
+    projects_url <- "https://todoist.com/API/getProjects"
+    args2 <- list(token = token)
+    tt2 <- getForm(projects_url, .params = args2)
+    ans2 <- fromJSON(tt2)
+    return(ldply(ans2, data.frame))
 }
-
-
 #' delete_project
 #'
 #' Deletes an existing Todoist project
@@ -48,22 +43,20 @@ return(ldply(ans2, data.frame))
 #' @param  token = getOption('TodoistToken') <what param does>
 #' @export
 #' @examples \dontrun{
-#' delete_project("unwanted_project")
+#' delete_project('unwanted_project')
 #'}
-delete_project <- function(project_name, token = getOption('TodoistToken')) {
-delete_url <- "https://todoist.com/API/deleteProject"
-current_projects <- get_projects(token)
-if(!(project_name %in% current_projects$name)) {
-	stop("Project not found.")
-	} else {
-confirm <- readLine()
-if(upper(confirm)=="Y") {
-pj_id <- current[which(current$name==project_name),]$id
-args <- list(project_id = pj_id, token = token)
-result <- fromJSON(add_p)
-return (result)
-	}
+delete_project <- function(project_name, token = getOption("TodoistToken")) {
+    delete_url <- "https://todoist.com/API/deleteProject"
+    current_projects <- projects(token)
+    if (!(project_name %in% current_projects$name)) {
+        stop("Project not found.")
+    } else {
+        confirm <- readline(prompt="Are you sure? ")
+        if (toupper(confirm) == "Y") {
+            pj_id <- current_projects[which(current_projects$name == project_name), ]$id
+            args <- list(project_id = pj_id, token = token)
+            del <- getForm(delete_url, .params = args)
+            cat(del)
+        }
+    }
 }
-}
-
-

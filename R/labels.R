@@ -1,11 +1,6 @@
-
 get_labels <- function() {
-label_url <- "https://todoist.com/API/getLabels"
-
+    label_url <- "https://todoist.com/API/getLabels"
 }
-
-
 add_labels <- function() {
-alabel_url <- "https://todoist.com/API/getLabels"
-
-}
+    alabel_url <- "https://todoist.com/API/getLabels"
+} 

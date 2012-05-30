@@ -24,7 +24,7 @@ options(TodoistToken = "YOUR_TOKEN")
 That way you no longer have to specify a token for any `rtodoist` functions. Of course, you can also just specifiy it inline using `token=...`
 
 ## Project Functions
-`add_project` - Add a new project to your todoist account
+`add_project` - Add a new project to your Todoist account
 
 **Usage**: `add_project("New Project")`
 
@@ -38,7 +38,7 @@ That way you no longer have to specify a token for any `rtodoist` functions. Of 
 
 ## Task Functions
 
-`pending_tasks` - returns incomplete tasks from a specified project.
+`pending` - returns incomplete tasks from a specified project.
 
 `add_task` - Add a task to a particular project.
 
@@ -51,6 +51,9 @@ __Note: There are other API methods that I didn't code up since they aren't crit
 
 `label_tasks()` - Returns tasks matching a label.
 
+## Search Functions
+
+`search_todoist()` - Search todoist.
 
 ## Examples
 

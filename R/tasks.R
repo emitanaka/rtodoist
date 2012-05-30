@@ -8,15 +8,11 @@
 #' @examples \dontrun{
 #' pending_tasks(1235, token)
 #'}
-incomplete_tasks <- function(project_id, token = getOption("TodoistToken"),
+pending <- function(project_id, token = getOption("TodoistToken"),
     recurring = FALSE) {
     ptasks_url <- "https://todoist.com/API/getUncompletedItems"
     args <- list(project_id = project_id, token = token)
     tasks <- getForm(ptasks_url, .params = args)
-    format_tasks <- function(foo, recurring) {
-        result <- data.frame(id = foo$id, name = foo$content, due = foo$date, priority = foo$priority,
-            pid = foo$project_id, ds = foo$date_string)
-    }
     my_tasks <- fromJSON(tasks)
     my_tasks <- ldply(my_tasks, format_tasks)
     if (dim(my_tasks)[1] > 0) {
@@ -26,9 +22,6 @@ incomplete_tasks <- function(project_id, token = getOption("TodoistToken"),
         if (recurring) {
             my_tasks <- my_tasks[, 1:4]
         }
-        temp <- ddply(my_tasks, .(id), summarize, due_date = format_date(due))
-        my_tasks <- join(my_tasks, temp, by = "id", type = "left")
-        my_tasks <- my_tasks[, -3]
    return(my_tasks)
     }
 }
@@ -61,3 +54,17 @@ format_date <- function(date_string) {
     formatted_date <- as.Date(date, "%m-%d-%Y")
     return(formatted_date)
 }
+
+
+
+#' Format tasks
+#'
+#'<full description>
+#' @param task_subset input list
+#' @param  recurring logical. Turn off to remove recurring tasks.
+#' @keywords internal
+format_tasks <- function(task_subset, recurring) {
+        result <- data.frame(id = task_subset$id, name = task_subset$content, due = format_date(task_subset$date), priority = task_subset$priority,
+            pid = task_subset$project_id)
+    return(result)
+    }
