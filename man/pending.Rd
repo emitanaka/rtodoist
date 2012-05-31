@@ -1,9 +1,9 @@
-\name{incomplete_tasks}
-\alias{incomplete_tasks}
+\name{pending}
+\alias{pending}
 \title{Pending Tasks}
 \usage{
-  incomplete_tasks(project_id,
-    token = getOption("TodoistToken"), recurring = FALSE)
+  pending(project_id, token = getOption("TodoistToken"),
+    recurring = FALSE)
 }
 \arguments{
   \item{project_id}{ID of project}

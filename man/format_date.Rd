@@ -8,7 +8,7 @@
   \item{date}{a todoist date}
 }
 \value{
-  Date
+  \code{Date}
 }
 \description{
   format_date

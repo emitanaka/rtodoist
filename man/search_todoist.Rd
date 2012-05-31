@@ -10,11 +10,11 @@
   \item{token}{<what param does>}
 }
 \description{
-  <full description>
+  Search Todoist.
 }
 \examples{
 \dontrun{
-search_todoist("today", token)
+search_todoist('today')
 }
 }
 

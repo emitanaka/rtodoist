@@ -17,7 +17,7 @@ pending <- function(project_id, token = getOption("TodoistToken"),
     my_tasks <- ldply(my_tasks, format_tasks)
     if (dim(my_tasks)[1] > 0) {
         if (!recurring) {
-            my_tasks <- my_tasks[-grep("^every", my_tasks$ds), 1:4]
+            my_tasks <- my_tasks[-grep("^every", my_tasks$due), 1:4]
         }
         if (recurring) {
             my_tasks <- my_tasks[, 1:4]
@@ -25,33 +25,26 @@ pending <- function(project_id, token = getOption("TodoistToken"),
    return(my_tasks)
     }
 }
-#' get_tasks
-#'
-#' Returns a list of tasks from a specified project
-#' @param project_id ID of project
-#' @param  token Todoist API token.
-#' @export
-#' @examples \dontrun{
-#' get_tasks(12345, token)
-#'}
-get_tasks <- function(project_id, token = getOption("TodoistToken")) {
-    tasks_url <- "https://todoist.com"
-}
+
 #'format_date
 #'
 #' @param date a todoist date
 #' @keywords internal
 #' @return \code{Date}
-format_date <- function(date_string) {
-    date_string <- str_split_fixed(date_string, " ", 3)
+format_date <- function(inputdate) {
+    if(!is.null(date_string) || nzchar(date_string)) {
+    foo <- str_split_fixed(date_string, " ", 5)
     months <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
         "Nov", "Dec")
-    day <- str_sub(date_string[3], 1, 2)
-    month <- date_string[2]
+    day <- foo[3]
+    month <- foo[2]
     m <- which(months == month)
-    year <- date_string[3]
+    year <- foo[5]
     date <- sprintf("%s-%s-%s", m, day, year)
     formatted_date <- as.Date(date, "%m-%d-%Y")
+    } else {
+        formatted_date <- NA
+    }
     return(formatted_date)
 }
 
@@ -64,7 +57,7 @@ format_date <- function(date_string) {
 #' @param  recurring logical. Turn off to remove recurring tasks.
 #' @keywords internal
 format_tasks <- function(task_subset, recurring) {
-        result <- data.frame(id = task_subset$id, name = task_subset$content, due = format_date(task_subset$date), priority = task_subset$priority,
+        result <- data.frame(id = task_subset$id, name = task_subset$content, due = task_subset$due_date, priority = task_subset$priority,
             pid = task_subset$project_id)
     return(result)
     }

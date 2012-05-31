@@ -16,7 +16,7 @@
 \examples{
 \dontrun{
 projects <- get_projects(token)
-postdoc <- projects[which(projects$name=="Postdoc"),]$id
+postdoc <- projects[which(projects$name=='Postdoc'),]$id
 }
 }
 

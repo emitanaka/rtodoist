@@ -15,7 +15,7 @@
 }
 \examples{
 \dontrun{
-add_project("Work", token)
+add_project('Work', token)
 }
 }
 

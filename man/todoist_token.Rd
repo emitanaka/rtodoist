@@ -2,7 +2,7 @@
 \alias{todoist_token}
 \title{todoist_token}
 \usage{
-  todoist_token(email, password)
+  todoist_token(email = NULL, password = NULL)
 }
 \arguments{
   \item{email}{Todoist user email.}
@@ -17,7 +17,7 @@
 }
 \examples{
 \dontrun{
-token <- todoist_token("my_email", "my_password")
+token <- todoist_token('my_email', 'my_password')
 }
 }
 \keyword{authentication}

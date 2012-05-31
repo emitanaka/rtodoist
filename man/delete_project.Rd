@@ -16,7 +16,7 @@
 }
 \examples{
 \dontrun{
-delete_project("unwanted_project")
+delete_project('unwanted_project')
 }
 }
 
