@@ -34,7 +34,11 @@ projects <- function(token = getOption("TodoistToken")) {
     args2 <- list(token = token)
     tt2 <- getForm(projects_url, .params = args2)
     ans2 <- fromJSON(tt2)
-    return(ldply(ans2, data.frame))
+    results <- ldply(ans2, function(x) {
+        (data.frame(project=x$name, id= x$id, archived = as.logical(x$is_archived)))
+        })
+        return(results)
+    # return(ldply(ans2, data.frame))
 }
 #' delete_project
 #'
