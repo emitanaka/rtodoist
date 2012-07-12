@@ -1,6 +1,5 @@
 export(add_project)
 export(delete_project)
-export(get_tasks)
 export(pending)
 export(projects)
 export(search_todoist)

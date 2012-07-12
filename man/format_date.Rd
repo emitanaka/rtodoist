@@ -2,7 +2,7 @@
 \alias{format_date}
 \title{format_date}
 \usage{
-  format_date(date_string)
+  format_date(inputdate)
 }
 \arguments{
   \item{date}{a todoist date}
