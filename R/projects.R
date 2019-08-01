@@ -8,7 +8,7 @@
 #' add_project('Work', token)
 #'}
 add_project <- function(project_name, token = getOption("TodoistToken")) {
-    add_url <- "https://todoist.com/API/addProject"
+    add_url <- "https://api.todoist.com/rest/v1/projects"
     current_projects <- projects(token)
     if (project_name %in% current_projects$name) {
         stop("Project already exists")
