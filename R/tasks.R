@@ -1,63 +1,149 @@
-#' Pending Tasks
+#' Modify tasks on the todoist list
 #'
-#'<full description>
-#' @param project_id ID of project
-#' @param  token Todoist API token.
+#' Only one of the `due_*` can be used at the same time (except `due_lang`).
+#'
+#' @param content Task content.
+#' @param project_id Task project id. If not set, task is put to user's inbox.
+#' @param parent Parent task id.
+#' @param order Non-zero integer value to sort tasks under the same parent.
+#' @param label_ids A vector of strings. Ids of labels associated with the task.
+#' @param priority An integer ranging from priority from 1 (normal) to 4 (urgent)
+#' @param due_string Human defined task due date (e.g. "next Monday", "Tomorrow"). Value is set using local (not UTC) tie.
+#' @param due_date Specific date in YYYY-MM-DD format relative to user's timezone
+#' @param due_datetime Specific data and time in RFC3339 format in UTC
+#' @param due_lang 2-letter code specifying language in case `due_string` is not written in English.
+#' @name tasks
+NULL
+
+#' @rdname tasks
 #' @export
-#' @return data.frame with list of pending tasks for current project.
-#' @examples \dontrun{
-#' pending_tasks(1235, token)
-#'}
-pending <- function(project_id, token = getOption("TodoistToken"),
-    recurring = FALSE) {
-    ptasks_url <- "https://todoist.com/API/getUncompletedItems"
-    args <- list(project_id = project_id, token = token)
-    tasks <- getForm(ptasks_url, .params = args)
-    my_tasks <- fromJSON(tasks)
-    my_tasks <- ldply(my_tasks, format_tasks)
-    if (dim(my_tasks)[1] > 0) {
-        if (!recurring) {
-            my_tasks <- my_tasks[-grep("^every", my_tasks$due), 1:4]
-        }
-        if (recurring) {
-            my_tasks <- my_tasks[, 1:4]
-        }
-   return(my_tasks)
-    }
+tsk_get_all <- function(project_id = NULL,
+                        label_id   = NULL,
+                        filter     = NULL,
+                        lang       = NULL,
+                        token      = use_token()) {
+    filters <- filter_list_null(project_id = project_id,
+                                label_id = label_id,
+                                filter = filter,
+                                lang = lang)
+    httr::GET(url = tasks_api_url,
+              header_get(token = token),
+              body = filters, encode = "json") %>%
+        tsk_clean()
 }
 
-#'format_date
-#'
-#' @param date a todoist date
+#' Clean up http response
 #' @keywords internal
-#' @return \code{Date}
-format_date <- function(inputdate) {
-    if(!is.null(date_string) || nzchar(date_string)) {
-    foo <- str_split_fixed(date_string, " ", 5)
-    months <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-        "Nov", "Dec")
-    day <- foo[3]
-    month <- foo[2]
-    m <- which(months == month)
-    year <- foo[5]
-    date <- sprintf("%s-%s-%s", m, day, year)
-    formatted_date <- as.Date(date, "%m-%d-%Y")
-    } else {
-        formatted_date <- NA
+tsk_clean <- function(response) {
+    out_df <- response %>%
+        httr::content("text", encoding = "UTF-8") %>%
+        jsonlite::fromJSON(flatten = TRUE)
+    out_df$label_ids <- paste0(filter_list_null(out_df$label_ids), collapse = ",")
+    out_df <- as.data.frame(out_df) %>%
+        dplyr::mutate_if(is.factor, as.character)
+    names(out_df)[names(out_df) == "due.recurring"] <- "recurring"
+    names(out_df)[names(out_df) == "due.string"] <- "due_string"
+    names(out_df)[names(out_df) == "due.date"] <- "due_date"
+    if("due.datetime" %in% names(out_df)) {
+        out_df <- out_df %>%
+            dplyr::rename(due_datetime = due.datetime,
+                          due_timezone = due.timezone)
     }
-    return(formatted_date)
+    out_df <- out_df %>%
+        dplyr::bind_rows(empty_task_df, .) %>%
+        dplyr::mutate(due_date = as.Date(due_date),
+                      # the following doesn't seem to work
+                      due_datetime = format(due_datetime,
+                                            format = '%Y-%m-%dT%H:%M:%OSZ',
+                                            tz = due_timezone),
+                      created = format(created,
+                                       format = '%Y-%m-%dT%H:%M:%OSZ'))
+
+
+}
+
+#' @rdname tasks
+#' @export
+tsk_get_by_id <- function(id, token = use_token()) {
+    httr::GET(url = paste0(tasks_api_url, "/", id),
+              header_get(token = token)) %>%
+        tsk_clean()
+}
+
+#' @rdname tasks
+#' @export
+tsk_add <- function(content = NULL,
+                          project_id = NULL,
+                          parent = NULL,
+                          order = NULL,
+                          label_ids = NULL,
+                          priority = NULL,
+                          due_string = NULL,
+                          due_date = NULL,
+                          due_datetime = NULL,
+                          due_lang = NULL,
+                          token = use_token()) {
+    new_task <- filter_list_null(content = content,
+                                 project_id = project_id,
+                                 parent = parent,
+                                 order = order,
+                                 label_ids = label_ids,
+                                 priority = priority,
+                                 due_string = due_string,
+                                 due_datetime = due_datetime,
+                                 due_lang = due_lang)
+    httr::POST(url = tasks_api_url,
+               header_post(token),
+               body = new_task, encode = "json") %>%
+        tsk_clean()
 }
 
 
 
-#' Format tasks
-#'
-#'<full description>
-#' @param task_subset input list
-#' @param  recurring logical. Turn off to remove recurring tasks.
-#' @keywords internal
-format_tasks <- function(task_subset, recurring) {
-        result <- data.frame(id = task_subset$id, name = task_subset$content, due = task_subset$due_date, priority = task_subset$priority,
-            pid = task_subset$project_id)
-    return(result)
-    }
+
+#' @rdname tasks
+#' @export
+tsk_update_by_id <- function(id,
+                             content      = NULL,
+                             label_ids    = NULL,
+                             priority     = NULL,
+                             due_string   = NULL,
+                             due_date     = NULL,
+                             due_datetime = NULL,
+                             due_lang     = NULL,
+                             token        = use_token()) {
+    updates <- filter_list_null(content      = content,
+                                label_ids    = label_ids,
+                                prioirty     = priority,
+                                due_string   = due_string,
+                                due_date     = due_date,
+                                due_datetime = due_datetime,
+                                due_lang     = due_lang)
+    httr::POST(url = paste0(tasks_api_url, "/", id),
+               header_get(token),
+               body = updates, encode = "json") %>%
+        tsk_clean()
+}
+
+#' @rdname tasks
+#' @export
+tsk_close <- function(id, token = use_token()) {
+    httr::POST(url = paste0(tasks_api_url, "/", id, "/close"),
+               header_get(token)) %>%
+        tsk_clean()
+}
+
+#' @rdname tasks
+#' @export
+tsk_reopen <- function(id, token = use_token()) {
+    httr::POST(url = paste0(tasks_api_url, "/", id, "/reopen"),
+               header_get(token)) %>%
+        tsk_clean()
+}
+
+#' @rdname tasks
+#' @export
+tsk_delete <- function(id, token = use_token()) {
+    purrr::walk(id, ~httr::DELETE(url = paste0(tasks_api_url, "/", .x),
+                                header_get(token)))
+}
