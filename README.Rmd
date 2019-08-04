@@ -41,4 +41,49 @@ TODOIST_API_TOKEN=<INSERT YOUR TOKEN>
 
 The easiest way to access the `.Renviron` is to use `usethis::edit_r_environ()`.
 
-That way you no longer have to specify a token for any `rtodoist` functions. Of course, you can also just specifiy it inline using `token=...`
+That way you no longer have to specify a token for any `rtodoist` functions. Of course, you can also just specifiy it inline using `token=...`.
+
+## Modifying projects on todoist
+
+The `rtodoist` R package has a family of functions that can manipulate and view information on projects. These famliy of functions all start with `proj_`. E.g. use
+
+```{r, eval=F}
+proj_add("My awesome project")
+```
+
+to add a new project called "My awesome project". You will need to have your token environment setup for this to work or alternatively if you have your API token string you can supply it to the argument `token`. 
+
+```{r, eval=F}
+proj_add("My awesome project", token = "<YOUR TOKEN>")
+```
+
+Other projected related functions include: 
+
+```{r, echo=F, results='asis'}
+library(rtodoist)
+fns <- ls("package:rtodoist")
+proj_fns <- fns[stringr::str_starts(fns, 'proj')]
+proj_fns <- setdiff(proj_fns, "proj_add")
+cat(paste0(paste0(clisymbols::symbol$bullet, "`", proj_fns, "`"), collapse = "\n\n"), ".")
+```
+
+
+## Modifying tasks on todoist
+
+Similarily, the `rtodoist` package has a family of functions to modify and view information on tasks. These functions all start with `task_`. E.g. use
+
+```{r, eval=F}
+task_add(content = "Get rtodoist documentation done.", 
+         due_string = "Tomorrow")
+```
+
+to add a task that is due tomorrow.
+
+Other task related functions include: 
+
+```{r, echo=F, results='asis'}
+task_fns <- fns[stringr::str_starts(fns, 'task')]
+task_fns <- setdiff(task_fns, c("task_add", "task_clean"))
+cat(paste0(paste0(clisymbols::symbol$bullet, "`", task_fns, "`"), collapse = "\n\n"), ".")
+```
+

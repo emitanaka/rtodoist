@@ -2,35 +2,35 @@
 % Please edit documentation in R/projects.R
 \name{projects}
 \alias{projects}
-\alias{pjt_get_all}
-\alias{pjt_get}
-\alias{pjt_get_by_id}
-\alias{pjt_add}
-\alias{pjt_add_quick}
-\alias{pjt_update_by_name}
-\alias{pjt_update_by_id}
-\alias{pjt_delete}
-\alias{pjt_delete_by_id}
+\alias{proj_get_all}
+\alias{proj_get}
+\alias{proj_get_by_id}
+\alias{proj_add}
+\alias{proj_add_quick}
+\alias{proj_update_by_name}
+\alias{proj_update_by_id}
+\alias{proj_delete}
+\alias{proj_delete_by_id}
 \title{Modify projects on the todoist list}
 \usage{
-pjt_get_all(token = use_token())
+proj_get_all(token = use_token())
 
-pjt_get(name = NULL, id = NULL, token = use_token())
+proj_get(name = NULL, id = NULL, token = use_token())
 
-pjt_get_by_id(id, token = use_token())
+proj_get_by_id(id, token = use_token())
 
-pjt_add(name, parent_id = NULL, token = use_token())
+proj_add(name, parent_id = NULL, token = use_token())
 
-pjt_add_quick(name, parent_id = NULL, token = use_token())
+proj_add_quick(name, parent_id = NULL, token = use_token())
 
-pjt_update_by_name(name, new_name, token = use_token())
+proj_update_by_name(name, new_name, token = use_token())
 
-pjt_update_by_id(id, new_name, token = use_token())
+proj_update_by_id(id, new_name, token = use_token())
 
-pjt_delete(name = NULL, id = NULL, token = use_token(),
+proj_delete(name = NULL, id = NULL, token = use_token(),
   prompt = TRUE)
 
-pjt_delete_by_id(id, token = use_token())
+proj_delete_by_id(id, token = use_token())
 }
 \arguments{
 \item{token}{todosit API token}

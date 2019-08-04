@@ -17,7 +17,7 @@ NULL
 
 #' @rdname tasks
 #' @export
-tsk_get_all <- function(project_id = NULL,
+task_get_all <- function(project_id = NULL,
                         label_id   = NULL,
                         filter     = NULL,
                         lang       = NULL,
@@ -29,12 +29,12 @@ tsk_get_all <- function(project_id = NULL,
     httr::GET(url = tasks_api_url,
               header_get(token = token),
               body = filters, encode = "json") %>%
-        tsk_clean()
+        task_clean()
 }
 
 #' Clean up http response
 #' @keywords internal
-tsk_clean <- function(response) {
+task_clean <- function(response) {
     out_df <- response %>%
         httr::content("text", encoding = "UTF-8") %>%
         jsonlite::fromJSON(flatten = TRUE)
@@ -64,15 +64,15 @@ tsk_clean <- function(response) {
 
 #' @rdname tasks
 #' @export
-tsk_get_by_id <- function(id, token = use_token()) {
+task_get_by_id <- function(id, token = use_token()) {
     httr::GET(url = paste0(tasks_api_url, "/", id),
               header_get(token = token)) %>%
-        tsk_clean()
+        task_clean()
 }
 
 #' @rdname tasks
 #' @export
-tsk_add <- function(content = NULL,
+task_add <- function(content = NULL,
                           project_id = NULL,
                           parent = NULL,
                           order = NULL,
@@ -95,7 +95,7 @@ tsk_add <- function(content = NULL,
     httr::POST(url = tasks_api_url,
                header_post(token),
                body = new_task, encode = "json") %>%
-        tsk_clean()
+        task_clean()
 }
 
 
@@ -103,7 +103,7 @@ tsk_add <- function(content = NULL,
 
 #' @rdname tasks
 #' @export
-tsk_update_by_id <- function(id,
+task_update_by_id <- function(id,
                              content      = NULL,
                              label_ids    = NULL,
                              priority     = NULL,
@@ -122,28 +122,28 @@ tsk_update_by_id <- function(id,
     httr::POST(url = paste0(tasks_api_url, "/", id),
                header_get(token),
                body = updates, encode = "json") %>%
-        tsk_clean()
+        task_clean()
 }
 
 #' @rdname tasks
 #' @export
-tsk_close <- function(id, token = use_token()) {
+task_close <- function(id, token = use_token()) {
     httr::POST(url = paste0(tasks_api_url, "/", id, "/close"),
                header_get(token)) %>%
-        tsk_clean()
+        task_clean()
 }
 
 #' @rdname tasks
 #' @export
-tsk_reopen <- function(id, token = use_token()) {
+task_reopen <- function(id, token = use_token()) {
     httr::POST(url = paste0(tasks_api_url, "/", id, "/reopen"),
                header_get(token)) %>%
-        tsk_clean()
+        task_clean()
 }
 
 #' @rdname tasks
 #' @export
-tsk_delete <- function(id, token = use_token()) {
+task_delete <- function(id, token = use_token()) {
     purrr::walk(id, ~httr::DELETE(url = paste0(tasks_api_url, "/", .x),
                                 header_get(token)))
 }

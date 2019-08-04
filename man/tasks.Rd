@@ -2,34 +2,34 @@
 % Please edit documentation in R/tasks.R
 \name{tasks}
 \alias{tasks}
-\alias{tsk_get_all}
-\alias{tsk_get_by_id}
-\alias{tsk_add}
-\alias{tsk_update_by_id}
-\alias{tsk_close}
-\alias{tsk_reopen}
-\alias{tsk_delete}
+\alias{task_get_all}
+\alias{task_get_by_id}
+\alias{task_add}
+\alias{task_update_by_id}
+\alias{task_close}
+\alias{task_reopen}
+\alias{task_delete}
 \title{Modify tasks on the todoist list}
 \usage{
-tsk_get_all(project_id = NULL, label_id = NULL, filter = NULL,
+task_get_all(project_id = NULL, label_id = NULL, filter = NULL,
   lang = NULL, token = use_token())
 
-tsk_get_by_id(id, token = use_token())
+task_get_by_id(id, token = use_token())
 
-tsk_add(content = NULL, project_id = NULL, parent = NULL,
+task_add(content = NULL, project_id = NULL, parent = NULL,
   order = NULL, label_ids = NULL, priority = NULL,
   due_string = NULL, due_date = NULL, due_datetime = NULL,
   due_lang = NULL, token = use_token())
 
-tsk_update_by_id(id, content = NULL, label_ids = NULL,
+task_update_by_id(id, content = NULL, label_ids = NULL,
   priority = NULL, due_string = NULL, due_date = NULL,
   due_datetime = NULL, due_lang = NULL, token = use_token())
 
-tsk_close(id, token = use_token())
+task_close(id, token = use_token())
 
-tsk_reopen(id, token = use_token())
+task_reopen(id, token = use_token())
 
-tsk_delete(id, token = use_token())
+task_delete(id, token = use_token())
 }
 \arguments{
 \item{project_id}{Task project id. If not set, task is put to user's inbox.}

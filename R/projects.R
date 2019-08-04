@@ -10,29 +10,29 @@ NULL
 
 #' @rdname projects
 #' @export
-pjt_get_all <- function(token = use_token()) {
-    pjts_df <- httr::GET(url = projects_api_url,
+proj_get_all <- function(token = use_token()) {
+    projs_df <- httr::GET(url = projects_api_url,
                          header_get(token = token)) %>%
         httr::content("text", encoding = "UTF-8") %>%
         jsonlite::fromJSON(flatten = TRUE) %>%
         dplyr::mutate_if(is.factor, as.character) %>%
         dplyr::bind_rows(empty_project_df, .)
-    pjts_df
+    projs_df
 }
 
 #' @rdname projects
 #' @export
-pjt_get <- function(name = NULL, id = NULL, token = use_token()) {
+proj_get <- function(name = NULL, id = NULL, token = use_token()) {
     if(is.null(name) & is.null(id)) stop("A project name or id must be supplied.")
-    pjts_df <- pjt_get_all(token = token)
-    out_df <- dplyr::filter(pjts_df, .data$id %in% .env$id | .data$name %in% .env$name)
+    projs_df <- proj_get_all(token = token)
+    out_df <- dplyr::filter(projs_df, .data$id %in% .env$id | .data$name %in% .env$name)
     if(nrow(out_df)==0) stop(paste("There are no projects", ui_projects(name, id = id)))
     out_df
 }
 
 #' @rdname projects
 #' @export
-pjt_get_by_id <- function(id, token = use_token()) {
+proj_get_by_id <- function(id, token = use_token()) {
     purrr::map_dfr(id, ~{
         httr::GET(url = paste0(projects_api_url, "/", .x),
                   header_get(token = token)) %>%
@@ -46,22 +46,22 @@ pjt_get_by_id <- function(id, token = use_token()) {
 
 #' @rdname projects
 #' @export
-pjt_add <- function(name, parent_id = NULL, token = use_token()) {
-    current_projects <- pjt_get_all(token = token)
+proj_add <- function(name, parent_id = NULL, token = use_token()) {
+    current_projects <- proj_get_all(token = token)
     if (name %in% current_projects$name) {
         stop("Project already exists")
     } else {
         if(interactive()) {
 
         }
-        new_project <- pjt_add_quick(name, patent_id, token)
+        new_project <- proj_add_quick(name, patent_id, token)
         return(invisible(new_project))
     }
 }
 
 #' @rdname projects
 #' @export
-pjt_add_quick <- function(name, parent_id = NULL, token = use_token()) {
+proj_add_quick <- function(name, parent_id = NULL, token = use_token()) {
     new_project <- httr::POST(url = projects_api_url,
                             header_post(token = token),
                             body = list(name   = name,
@@ -73,16 +73,16 @@ pjt_add_quick <- function(name, parent_id = NULL, token = use_token()) {
 
 #' @rdname projects
 #' @export
-pjt_update_by_name <- function(name, new_name, token = use_token()) {
-    id <- pjt_get_all(token = token) %>%
+proj_update_by_name <- function(name, new_name, token = use_token()) {
+    id <- proj_get_all(token = token) %>%
         dplyr::filter(.data$name %in% .env$name) %>%
         dplyr::pull(id)
-    pjt_update_by_id(id, new_name, token)
+    proj_update_by_id(id, new_name, token)
 }
 
 #' @rdname projects
 #' @export
-pjt_update_by_id <- function(id, new_name, token = use_token()) {
+proj_update_by_id <- function(id, new_name, token = use_token()) {
     purrr::walk2(id, new_name,
                  ~httr::POST(url = paste0(projects_api_url, "/", .x),
                       header_post(token = token),
@@ -93,16 +93,16 @@ pjt_update_by_id <- function(id, new_name, token = use_token()) {
 
 #' @rdname projects
 #' @export
-pjt_delete <- function(name = NULL, id = NULL, token = use_token(), prompt = TRUE) {
+proj_delete <- function(name = NULL, id = NULL, token = use_token(), prompt = TRUE) {
     if(is.null(name) & is.null(id)) stop("A project name or id must be supplied.")
 
-    pjts_df <- pjt_get_all(token = token) %>%
+    projs_df <- proj_get_all(token = token) %>%
         dplyr::filter(.data$name %in% .env$name | .data$id %in% .env$id)
 
-    if (!nrow(pjts_df)) {
+    if (!nrow(projs_df)) {
         stop("Project not found.")
     } else {
-        if(any(tt <- table(pjts_df$name) > 1)) {
+        if(any(tt <- table(projs_df$name) > 1)) {
             dup_projects <- names(tt)[tt]
             warning("There are multiple projects with the names ",
                     ui_projects(dup_projects), ".")
@@ -114,15 +114,15 @@ pjt_delete <- function(name = NULL, id = NULL, token = use_token(), prompt = TRU
 
         delete_for_real <- ifelse(prompt,
                                   yesno("Are you sure you want to delete the project ",
-                                        ui_projects(pjts_df$name), "?"),
+                                        ui_projects(projs_df$name), "?"),
                                   TRUE)
         if (delete_for_real) {
-            pjt_delete_by_id(pjts_df$id, token)
-            if(length(pjts_df$id) == 1) {
-                message("Project ", ui_projects(pjts_df$name, pjts_df$id),
+            proj_delete_by_id(projs_df$id, token)
+            if(length(projs_df$id) == 1) {
+                message("Project ", ui_projects(projs_df$name, projs_df$id),
                         " was deleted.")
             } else {
-                message("Projects ", ui_projects(pjts_df$name, pjts_df$id),
+                message("Projects ", ui_projects(projs_df$name, projs_df$id),
                         " were deleted.")
             }
         } else {
@@ -133,7 +133,7 @@ pjt_delete <- function(name = NULL, id = NULL, token = use_token(), prompt = TRU
 
 #' @rdname projects
 #' @export
-pjt_delete_by_id <- function(id, token = use_token()) {
+proj_delete_by_id <- function(id, token = use_token()) {
     purrr::walk(id, ~{
         url <- paste0(projects_api_url, "/", .x)
         httr::DELETE(url = url, header_get(token = token))

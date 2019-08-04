@@ -39,4 +39,67 @@ The easiest way to access the `.Renviron` is to use
 
 That way you no longer have to specify a token for any `rtodoist`
 functions. Of course, you can also just specifiy it inline using
-`token=...`
+`token=...`.
+
+## Modifying projects on todoist
+
+The `rtodoist` R package has a family of functions that can manipulate
+and view information on projects. These famliy of functions all start
+with `proj_`. E.g. use
+
+``` r
+proj_add("My awesome project")
+```
+
+to add a new project called “My awesome project”. You will need to have
+your token environment setup for this to work or alternatively if you
+have your API token string you can supply it to the argument `token`.
+
+``` r
+proj_add("My awesome project", token = "<YOUR TOKEN>")
+```
+
+Other projected related functions include:
+
+●`proj_add_quick`
+
+●`proj_delete`
+
+●`proj_delete_by_id`
+
+●`proj_get`
+
+●`proj_get_all`
+
+●`proj_get_by_id`
+
+●`proj_update_by_id`
+
+●`proj_update_by_name` .
+
+## Modifying tasks on todoist
+
+Similarily, the `rtodoist` package has a family of functions to modify
+and view information on tasks. These functions all start with `task_`.
+E.g. use
+
+``` r
+task_add(content = "Get rtodoist documentation done.", 
+         due_string = "Tomorrow")
+```
+
+to add a task that is due tomorrow.
+
+Other task related functions include:
+
+●`task_close`
+
+●`task_delete`
+
+●`task_get_all`
+
+●`task_get_by_id`
+
+●`task_reopen`
+
+●`task_update_by_id` .
