@@ -22,19 +22,20 @@ version using the `devtools` package.
 devtools::install_github("karthik/rtodoist")
 ```
 
-## Example
+## Getting your API token
 
-I also recommend that once you run:
+First you will need to get the API token from your account. If you login
+to your todoist account, you can find this under Settings \>
+Integrations \> API token or by clicking
+[here](https://todoist.com/prefs/integrations) and scroll to the bottom.
 
-``` r
-token <- todoist_token('your_todoist_login', 'your_todoist_password')
-```
+You are recommended that you place your token in the `.Renviron` file by
+adding to it:
 
-simply save that token in your `.rprofile` by adding the following line:
+    TODOIST_API_TOKEN=<INSERT YOUR TOKEN>
 
-``` r
-options(TodoistToken = "YOUR_TOKEN")
-```
+The easiest way to access the `.Renviron` is to use
+`usethis::edit_r_environ()`.
 
 That way you no longer have to specify a token for any `rtodoist`
 functions. Of course, you can also just specifiy it inline using
