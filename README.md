@@ -1,29 +1,47 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
 # rtodoist
 
-This is an interface to [Todoist](https://todoist.com) - the todo list manager via `R`. I wrote this primarily for my own needs so I could write custom queries, update my tasks and projects directly from `R`, and also format the queries and write them to text files. This allows me to embed tasks from various projects into my desktop using [Geektool](http://projects.tynsoe.org/en/geektool/).
+<!-- badges: start -->
 
-## Installing
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+<!-- badges: end -->
 
-Package is still in early development but you can install the latest version using the `devtools` package.
+This R package is an interface to [todoist](https://todoist.com) - the
+todo list manager.
 
-```r
-library(devtools)
-install_github("rtodoist", "karthikram")
+## Installation
+
+Package is still in early development but you can install the latest
+version using the `devtools` package.
+
+``` r
+# install.packages("devtools")
+devtools::install_github("karthik/rtodoist")
 ```
+
+## Example
+
 I also recommend that once you run:
 
- ```r
- token <- todoist_token('your_todoist_login', 'your_todoist_password')
- ```
- simply save that token in your `.rprofile` by adding the following line:
+``` r
+token <- todoist_token('your_todoist_login', 'your_todoist_password')
+```
 
-```r
+simply save that token in your `.rprofile` by adding the following line:
+
+``` r
 options(TodoistToken = "YOUR_TOKEN")
 ```
 
-That way you no longer have to specify a token for any `rtodoist` functions. Of course, you can also just specifiy it inline using `token=...`
+That way you no longer have to specify a token for any `rtodoist`
+functions. Of course, you can also just specifiy it inline using
+`token=...`
 
 ## Project Functions
+
 `add_project` - Add a new project to your Todoist account
 
 **Usage**: `add_project("New Project")`
@@ -42,8 +60,8 @@ That way you no longer have to specify a token for any `rtodoist` functions. Of 
 
 `add_task` - Add a task to a particular project.
 
-__Note: There are other API methods that I didn't code up since they aren't critical.__
-
+**Note: There are other API methods that I didn’t code up since they
+aren’t critical.**
 
 ## Label Functions
 
@@ -57,7 +75,7 @@ __Note: There are other API methods that I didn't code up since they aren't crit
 
 ## Examples
 
-```r
+``` r
 # Get a list of current projects
 my_projects <- projects()
 ```

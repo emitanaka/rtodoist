@@ -1,66 +1,142 @@
-#' add_project
+#' Modify projects on the todoist list
 #'
-#' Add a new project to Todoist
-#' @param project_name  Name of new project
-#' @param  token Todoist API token
+#' @param name a vector of strings specifyibng the name of the projects
+#' @param id a vector of integers speciying project ids
+#' @param new_name a vector of strings speciying the new name of the projects
+#' @param parent_id the project id to nest under
+#' @param token todosit API token
+#' @name projects
+NULL
+
+#' @rdname projects
 #' @export
-#' @examples \dontrun{
-#' add_project('Work', token)
-#'}
-add_project <- function(project_name, token = getOption("TodoistToken")) {
-    add_url <- "https://api.todoist.com/rest/v1/projects"
-    current_projects <- projects(token)
-    if (project_name %in% current_projects$name) {
+pjt_get_all <- function(token = use_token()) {
+    pjts_df <- httr::GET(url = projects_api_url,
+                         header_get(token = token)) %>%
+        httr::content("text", encoding = "UTF-8") %>%
+        jsonlite::fromJSON(flatten = TRUE) %>%
+        dplyr::mutate_if(is.factor, as.character) %>%
+        dplyr::bind_rows(empty_project_df, .)
+    pjts_df
+}
+
+#' @rdname projects
+#' @export
+pjt_get <- function(name = NULL, id = NULL, token = use_token()) {
+    if(is.null(name) & is.null(id)) stop("A project name or id must be supplied.")
+    pjts_df <- pjt_get_all(token = token)
+    out_df <- dplyr::filter(pjts_df, .data$id %in% .env$id | .data$name %in% .env$name)
+    if(nrow(out_df)==0) stop(paste("There are no projects", ui_projects(name, id = id)))
+    out_df
+}
+
+#' @rdname projects
+#' @export
+pjt_get_by_id <- function(id, token = use_token()) {
+    purrr::map_dfr(id, ~{
+        httr::GET(url = paste0(projects_api_url, "/", .x),
+                  header_get(token = token)) %>%
+            httr::content("text", encoding = "UTF-8") %>%
+            jsonlite::fromJSON() %>% # hmm not happy with return object here
+            as.data.frame() %>%
+            dplyr::mutate_if(is.factor, as.character) %>%
+            dplyr::bind_rows(empty_project_df, .)
+    })
+}
+
+#' @rdname projects
+#' @export
+pjt_add <- function(name, parent_id = NULL, token = use_token()) {
+    current_projects <- pjt_get_all(token = token)
+    if (name %in% current_projects$name) {
         stop("Project already exists")
     } else {
-        args <- list(name = project_name, token = token)
-        add_p <- postForm(add_url, name = project_name, token = token)
-        result <- fromJSON(add_p)
-            return(result)
+        if(interactive()) {
+
+        }
+        new_project <- pjt_add_quick(name, patent_id, token)
+        return(invisible(new_project))
     }
 }
-#'get_projects
-#'
-#' retrieves list of projects
-#' @param token valid todoist token
+
+#' @rdname projects
 #' @export
-#' @return data.frame with list of projects
-#' @examples \dontrun{
-#' projects <- get_projects(token)
-#' postdoc <- projects[which(projects$name=='Postdoc'),]$id
-#'}
-projects <- function(token = getOption("TodoistToken")) {
-    projects_url <- "https://todoist.com/API/getProjects"
-    args2 <- list(token = token)
-    tt2 <- getForm(projects_url, .params = args2)
-    ans2 <- fromJSON(tt2)
-    results <- ldply(ans2, function(x) {
-        (data.frame(project=x$name, id= x$id, archived = as.logical(x$is_archived)))
-        })
-        return(results)
-    # return(ldply(ans2, data.frame))
+pjt_add_quick <- function(name, parent_id = NULL, token = use_token()) {
+    new_project <- httr::POST(url = projects_api_url,
+                            header_post(token = token),
+                            body = list(name   = name,
+                                        parent = parent_id),
+                            encode = "json")
+    invisible(new_project)
 }
-#' delete_project
-#'
-#' Deletes an existing Todoist project
-#' @param project_name <what param does>
-#' @param  token = getOption('TodoistToken') <what param does>
+
+
+#' @rdname projects
 #' @export
-#' @examples \dontrun{
-#' delete_project('unwanted_project')
-#'}
-delete_project <- function(project_name, token = getOption("TodoistToken")) {
-    delete_url <- "https://todoist.com/API/deleteProject"
-    current_projects <- projects(token)
-    if (!(project_name %in% current_projects$name)) {
+pjt_update_by_name <- function(name, new_name, token = use_token()) {
+    id <- pjt_get_all(token = token) %>%
+        dplyr::filter(.data$name %in% .env$name) %>%
+        dplyr::pull(id)
+    pjt_update_by_id(id, new_name, token)
+}
+
+#' @rdname projects
+#' @export
+pjt_update_by_id <- function(id, new_name, token = use_token()) {
+    purrr::walk2(id, new_name,
+                 ~httr::POST(url = paste0(projects_api_url, "/", .x),
+                      header_post(token = token),
+                      body = list(name = .y), encode = "json")
+                 )
+}
+
+
+#' @rdname projects
+#' @export
+pjt_delete <- function(name = NULL, id = NULL, token = use_token(), prompt = TRUE) {
+    if(is.null(name) & is.null(id)) stop("A project name or id must be supplied.")
+
+    pjts_df <- pjt_get_all(token = token) %>%
+        dplyr::filter(.data$name %in% .env$name | .data$id %in% .env$id)
+
+    if (!nrow(pjts_df)) {
         stop("Project not found.")
     } else {
-        confirm <- readline(prompt="Are you sure? ")
-        if (toupper(confirm) == "Y") {
-            pj_id <- current_projects[which(current_projects$name == project_name), ]$id
-            args <- list(project_id = pj_id, token = token)
-            del <- getForm(delete_url, .params = args)
-            cat(del)
+        if(any(tt <- table(pjts_df$name) > 1)) {
+            dup_projects <- names(tt)[tt]
+            warning("There are multiple projects with the names ",
+                    ui_projects(dup_projects), ".")
+            if(prompt) {
+                proceed <- yesno("Are you you want to proceed?")
+                if(!proceed) stop("Projects not deleted due to multiple projects with the same names.")
+            }
+        }
+
+        delete_for_real <- ifelse(prompt,
+                                  yesno("Are you sure you want to delete the project ",
+                                        ui_projects(pjts_df$name), "?"),
+                                  TRUE)
+        if (delete_for_real) {
+            pjt_delete_by_id(pjts_df$id, token)
+            if(length(pjts_df$id) == 1) {
+                message("Project ", ui_projects(pjts_df$name, pjts_df$id),
+                        " was deleted.")
+            } else {
+                message("Projects ", ui_projects(pjts_df$name, pjts_df$id),
+                        " were deleted.")
+            }
+        } else {
+            message("Project deletion cancelled.")
         }
     }
 }
+
+#' @rdname projects
+#' @export
+pjt_delete_by_id <- function(id, token = use_token()) {
+    purrr::walk(id, ~{
+        url <- paste0(projects_api_url, "/", .x)
+        httr::DELETE(url = url, header_get(token = token))
+    })
+}
+
