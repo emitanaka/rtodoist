@@ -8,4 +8,13 @@
 \description{
 Manage projects and tasks on Todoist via R.
 }
+\author{
+\strong{Maintainer}: Karthik Ram \email{karthik.ram+R@gmail.com}
+
+Authors:
+\itemize{
+  \item Emi Tanaka \email{dr.emi.tanaka@gmail.com}
+}
+
+}
 \keyword{internal}

@@ -3,8 +3,11 @@ Type: Package
 Title: R interface to todoist.com
 Version: 2.0.0
 Date: 2012-05-28
-Author: Karthik Ram
-Maintainer: Karthik Ram <karthik.ram+R@gmail.com>
+Authors@R: c(
+    person("Karthik", "Ram", , "karthik.ram+R@gmail.com", role = c("aut", "cre")),
+    person("Emi", "Tanaka", , "dr.emi.tanaka@gmail.com", c("aut")
+    )
+  )
 Description: Manage projects and tasks on Todoist via R.
 License: GPL-3
 Imports: 
