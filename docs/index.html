@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">rtodoist</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -82,7 +82,39 @@
 <p>You are recommended that you place your token in the <code>.Renviron</code> file by adding to it:</p>
 <pre><code>TODOIST_API_TOKEN=&lt;INSERT YOUR TOKEN&gt;</code></pre>
 <p>The easiest way to access the <code>.Renviron</code> is to use <code><a href="https://usethis.r-lib.org/reference/edit.html">usethis::edit_r_environ()</a></code>.</p>
-<p>That way you no longer have to specify a token for any <code>rtodoist</code> functions. Of course, you can also just specifiy it inline using <code>token=...</code></p>
+<p>That way you no longer have to specify a token for any <code>rtodoist</code> functions. Of course, you can also just specifiy it inline using <code>token=...</code>.</p>
+</div>
+<div id="modifying-projects-on-todoist" class="section level2">
+<h2 class="hasAnchor">
+<a href="#modifying-projects-on-todoist" class="anchor"></a>Modifying projects on todoist</h2>
+<p>The <code>rtodoist</code> R package has a family of functions that can manipulate and view information on projects. These famliy of functions all start with <code>proj_</code>. E.g. use</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="reference/projects.html">proj_add</a></span>(<span class="st">"My awesome project"</span>)</a></code></pre></div>
+<p>to add a new project called “My awesome project”. You will need to have your token environment setup for this to work or alternatively if you have your API token string you can supply it to the argument <code>token</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="reference/projects.html">proj_add</a></span>(<span class="st">"My awesome project"</span>, <span class="dt">token =</span> <span class="st">"&lt;YOUR TOKEN&gt;"</span>)</a></code></pre></div>
+<p>Other projected related functions include:</p>
+<p>●<code>proj_add_quick</code></p>
+<p>●<code>proj_delete</code></p>
+<p>●<code>proj_delete_by_id</code></p>
+<p>●<code>proj_get</code></p>
+<p>●<code>proj_get_all</code></p>
+<p>●<code>proj_get_by_id</code></p>
+<p>●<code>proj_update_by_id</code></p>
+<p>●<code>proj_update_by_name</code> .</p>
+</div>
+<div id="modifying-tasks-on-todoist" class="section level2">
+<h2 class="hasAnchor">
+<a href="#modifying-tasks-on-todoist" class="anchor"></a>Modifying tasks on todoist</h2>
+<p>Similarily, the <code>rtodoist</code> package has a family of functions to modify and view information on tasks. These functions all start with <code>task_</code>. E.g. use</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="reference/tasks.html">task_add</a></span>(<span class="dt">content =</span> <span class="st">"Get rtodoist documentation done."</span>, </a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">         <span class="dt">due_string =</span> <span class="st">"Tomorrow"</span>)</a></code></pre></div>
+<p>to add a task that is due tomorrow.</p>
+<p>Other task related functions include:</p>
+<p>●<code>task_close</code></p>
+<p>●<code>task_delete</code></p>
+<p>●<code>task_get_all</code></p>
+<p>●<code>task_get_by_id</code></p>
+<p>●<code>task_reopen</code></p>
+<p>●<code>task_update_by_id</code> .</p>
 </div>
 </div>
   </div>

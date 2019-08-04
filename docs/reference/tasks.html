@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtodoist</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -105,25 +105,25 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>tsk_get_all</span>(<span class='kw'>project_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>task_get_all</span>(<span class='kw'>project_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>tsk_get_by_id</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>task_get_by_id</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>tsk_add</span>(<span class='kw'>content</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>project_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='fu'>task_add</span>(<span class='kw'>content</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>project_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>parent</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>order</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>priority</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>due_string</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>due_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>due_datetime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>due_lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>tsk_update_by_id</span>(<span class='no'>id</span>, <span class='kw'>content</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+<span class='fu'>task_update_by_id</span>(<span class='no'>id</span>, <span class='kw'>content</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>label_ids</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>priority</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>due_string</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>due_date</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>due_datetime</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>due_lang</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>tsk_close</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>task_close</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>tsk_reopen</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>task_reopen</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>tsk_delete</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())</pre>
+<span class='fu'>task_delete</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

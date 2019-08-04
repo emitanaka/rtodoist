@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">rtodoist</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.1.0</span>
       </span>
     </div>
 
@@ -105,24 +105,24 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>pjt_get_all</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+    <pre class="usage"><span class='fu'>proj_get_all</span>(<span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_get</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>proj_get</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_get_by_id</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>proj_get_by_id</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_add</span>(<span class='no'>name</span>, <span class='kw'>parent_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>proj_add</span>(<span class='no'>name</span>, <span class='kw'>parent_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_add_quick</span>(<span class='no'>name</span>, <span class='kw'>parent_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>proj_add_quick</span>(<span class='no'>name</span>, <span class='kw'>parent_id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_update_by_name</span>(<span class='no'>name</span>, <span class='no'>new_name</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>proj_update_by_name</span>(<span class='no'>name</span>, <span class='no'>new_name</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_update_by_id</span>(<span class='no'>id</span>, <span class='no'>new_name</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
+<span class='fu'>proj_update_by_id</span>(<span class='no'>id</span>, <span class='no'>new_name</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())
 
-<span class='fu'>pjt_delete</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>(),
+<span class='fu'>proj_delete</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>(),
   <span class='kw'>prompt</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
-<span class='fu'>pjt_delete_by_id</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())</pre>
+<span class='fu'>proj_delete_by_id</span>(<span class='no'>id</span>, <span class='kw'>token</span> <span class='kw'>=</span> <span class='fu'>use_token</span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
