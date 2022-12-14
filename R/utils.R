@@ -1,8 +1,8 @@
 
 
 # some global varibles
-projects_api_url <- "https://api.todoist.com/rest/v1/projects"
-tasks_api_url    <- "https://api.todoist.com/rest/v1/tasks"
+projects_api_url <- "https://api.todoist.com/rest/v2/projects"
+tasks_api_url    <- "https://api.todoist.com/rest/v2/tasks"
 
 empty_project_df <- data.frame(
   id = integer(),
